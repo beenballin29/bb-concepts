@@ -1,1 +1,43 @@
-<!doctype html><meta name=viewport content="width=device-width,initial-scale=1"><body style="background:#000;font-family:monospace;padding:40px;color:#e0a86a"><h2>BB CONCEPTS</h2><p><a style="color:#e0a86a" href="launch/">1. BB LAUNCH (fuel, lift off, orbit)</a></p><p><a style="color:#e0a86a" href="dock/">2. DOCKING SEQUENCE (interactive logo)</a></p><p><a style="color:#e0a86a" href="signal/">3. SIGNAL FROM ORBIT (live globe)</a></p></body>
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#000">
+<title>BB — Concepts</title>
+<style>
+@font-face{font-family:Unb;font-weight:900;font-display:swap;src:url(https://cdn.jsdelivr.net/fontsource/fonts/unbounded@latest/latin-900-normal.woff2) format('woff2')}
+@font-face{font-family:DMM;font-weight:500;font-display:swap;src:url(https://cdn.jsdelivr.net/fontsource/fonts/dm-mono@latest/latin-500-normal.woff2) format('woff2')}
+@font-face{font-family:Corm;font-style:italic;font-weight:300;font-display:swap;src:url(https://cdn.jsdelivr.net/fontsource/fonts/cormorant-garamond@latest/latin-300-italic.woff2) format('woff2')}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:#000;color:#e9e3da;font:500 11px/1.5 DMM,monospace;letter-spacing:.12em;text-transform:uppercase}
+body{min-height:100svh;background:radial-gradient(70vmax 50vmax at 50% -10%,rgba(180,116,59,.28),transparent 60%),#000;padding:calc(22px + env(safe-area-inset-top)) 18px 40px}
+a{color:inherit;text-decoration:none}
+.top{display:flex;justify-content:space-between;align-items:center;max-width:1200px;margin:0 auto}
+.top img{height:26px}
+.dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#8dffc1;box-shadow:0 0 8px #8dffc1;margin-right:8px;vertical-align:1px;animation:b 1.4s infinite}@keyframes b{50%{opacity:.3}}
+h1{max-width:1200px;margin:46px auto 8px;font:900 min(12.4vw,140px)/.86 Unb;letter-spacing:-.05em;text-transform:uppercase}
+h1 span{background:linear-gradient(180deg,#fff0d8,#f6d1a0 35%,#b4743b 80%,#6b3a17);-webkit-background-clip:text;background-clip:text;color:transparent;padding:0 .08em;margin:0 -.08em}
+.sub{max-width:1200px;margin:0 auto 30px;color:rgba(233,227,218,.5)}
+.grid{max-width:1200px;margin:0 auto;display:grid;gap:14px}
+.c{position:relative;display:grid;grid-template-columns:118px 1fr;gap:16px;align-items:center;padding:12px;border:1px solid rgba(246,209,160,.18);border-radius:22px;background:linear-gradient(180deg,rgba(20,16,12,.8),rgba(5,5,5,.9));overflow:hidden;transition:transform .5s cubic-bezier(.2,.8,.2,1),border-color .4s}
+.c::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 40%,rgba(246,209,160,.12) 50%,transparent 60%);transform:translateX(-100%);transition:transform 1s;pointer-events:none}
+.c:hover{transform:translateY(-4px);border-color:rgba(246,209,160,.5)}.c:hover::after{transform:translateX(100%)}
+.ph{border-radius:16px;overflow:hidden;aspect-ratio:390/844;border:1px solid rgba(246,209,160,.25);box-shadow:0 20px 40px -10px rgba(0,0,0,.9),0 0 30px rgba(180,116,59,.18)}
+.ph img{width:100%;height:100%;object-fit:cover;display:block}
+.n{color:#f6d1a0}
+.c h2{font:900 26px/.95 Unb;letter-spacing:-.04em;margin:8px 0 8px;text-transform:uppercase}
+.c p{text-transform:none;letter-spacing:.02em;font-size:12px;color:rgba(233,227,218,.62)}
+.go{display:inline-flex;margin-top:14px;height:36px;align-items:center;padding:0 14px;border-radius:99px;background:linear-gradient(180deg,#ffe2bb,#c88a4c);color:#120a04;font-size:10px;letter-spacing:.2em}
+.ea{max-width:1200px;margin:40px auto 0;border-top:1px solid rgba(246,209,160,.14);padding-top:18px;display:flex;flex-wrap:wrap;gap:8px 18px;color:rgba(233,227,218,.45)}
+.ea a{color:rgba(233,227,218,.7);border-bottom:1px solid rgba(246,209,160,.25)}
+.q{max-width:1200px;margin:34px auto 0;font:300 italic 26px Corm,serif;letter-spacing:0;text-transform:none;color:rgba(233,227,218,.55)}
+@media(min-width:900px){body{padding:36px 40px 50px}.grid{grid-template-columns:repeat(3,1fr);gap:20px}.c{grid-template-columns:1fr;padding:16px;align-items:start}.ph{border-radius:20px}.c h2{font-size:30px}}
+</style></head><body>
+<div class="top"><img src="hub/bb-logo.webp" alt="BB"><span><span class="dot"></span>BB is online</span></div>
+<h1>Drop 001<br><span>Concepts</span></h1>
+<div class="sub">Three new directions · tap to open · best on iPhone</div>
+<div class="grid">
+ <a class="c" href="monument/"><div class="ph"><img src="hub/monument.webp" alt=""></div><div><div class="n">01 / Cinematic 3D</div><h2>Monument</h2><p>Bronze trophy figure in orbit. 3D metal rings, tilt &amp; touch light, scroll-driven camera.</p><span class="go">Open →</span></div></a>
+ <a class="c" href="atelier/"><div class="ph"><img src="hub/atelier.webp" alt=""></div><div><div class="n">02 / Luxury store</div><h2>Atelier 029</h2><p>Yeezy-minimal storefront. BB cast in liquid bronze that ripples when you touch it.</p><span class="go">Open →</span></div></a>
+ <a class="c" href="mission/"><div class="ph"><img src="hub/mission.webp" alt=""></div><div><div class="n">03 / Trading HUD</div><h2>Mission Control</h2><p>Live orbit radar, candle chart, hold-to-launch rocket sequence, payload manifest.</p><span class="go">Open →</span></div></a>
+</div>
+<div class="ea"><span>Earlier ·</span><a href="launch/">BB Launch</a><a href="dock/">Docking Sequence</a><a href="signal/">Signal From Orbit</a></div>
+<div class="q">Earned, not given.</div>
+</body></html>
