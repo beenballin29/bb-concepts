@@ -39,7 +39,7 @@ span.bronze,h2.bronze,.tl.bronze{padding:0 .1em;margin:0 -.1em}
 @media (min-aspect-ratio:4/5){#statue{height:66vh;top:46.6%}.ringsfb .mb{display:none}.ringsfb .dk{display:inline}}
 html.gl-on .ringsfb{display:none}
 html.gl-fig #statue{opacity:0}
-#satfb{--sx:-0.0555;--sy:-0.5904;--sw:0.5;--dx:-0.7618;--dy:0.0139;--dw:0.46;position:fixed;z-index:2;pointer-events:none;height:auto;left:calc(50% + var(--sx)*45.6svh);top:calc(52% + var(--sy)*45.6svh);width:calc(var(--sw)*45.6svh);transform:translate(-52.27%,-58.21%);filter:drop-shadow(0 0 18px rgba(214,172,131,.18))}
+#satfb{--sx:-0.0555;--sy:-0.5904;--sw:0.5;--dx:-0.7618;--dy:0.0139;--dw:0.46;position:fixed;z-index:2;pointer-events:none;height:auto;left:calc(50% + var(--sx)*45.6svh);top:calc(52% + var(--sy)*45.6svh);width:calc(var(--sw)*45.6svh);transform:translate(-52.43%,-58.23%);filter:drop-shadow(0 0 18px rgba(214,172,131,.18))}
 @media (min-aspect-ratio:4/5){#satfb{left:calc(50% + var(--dx)*66vh);top:calc(46.6% + var(--dy)*66vh);width:calc(var(--dw)*66vh)}}
 html.gl-sat #satfb,html.satshot #satfb,html.dbgmag #satfb{display:none}
 html.satshot body,html.satshot{background:transparent!important}html.satshot body>*:not(#gl){visibility:hidden!important}html.satshot #gl{visibility:visible!important}
@@ -465,7 +465,7 @@ const bgS=new THREE.Scene();bgS.add(bgQ);const bgCam=new THREE.Camera();
 /* figure: relit bronze cutout with normal-from-luminance shading (light follows touch/tilt) */
 const tl=new THREE.TextureLoader();
 let figReady=false,figOK=false,glOn=false,satOK=false;const domFig=document.getElementById('statue'),domSat=document.getElementById('satfb');
-const SFB={ox:.5227,oy:.3168}; /* origin of the 3D satellite inside sat.webp, as a fraction of image width */
+const SFB={ox:.5243,oy:.3170}; /* origin of the 3D satellite inside sat.webp, as a fraction of image width */
 const figTex=tl.load('statue.webp',t=>{t.colorSpace=THREE.NoColorSpace;t.needsUpdate=true;figReady=true});
 figTex.anisotropy=R.capabilities.getMaxAnisotropy();
 const FH=3.45,FW=FH*1344/2087;
@@ -553,7 +553,7 @@ const glowTex=new THREE.CanvasTexture(gcv);
 function beacon(col,pos,size){const g=new THREE.Group();g.add(new THREE.Mesh(new THREE.SphereGeometry(.012,20,14),new THREE.MeshBasicMaterial({color:col})));
  const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex,color:col,blending:THREE.AdditiveBlending,depthWrite:false,transparent:true}));sp.scale.setScalar(size);g.add(sp);g.position.set(...pos);sat.add(g);return g}
 const blink=beacon(0xff5a3c,[0,.14,-.1],.16),blink2=beacon(0xEBCAA4,[0,-.14,.1],.12);beacon(0xffffff,[.06,.28,-.05],.1);
-const QS=new URLSearchParams(location.search),SATT=QS.has('sat')?+QS.get('sat'):null; /* ?sat=<s> freezes the satellite at orbit time s (nearest pass at s=4) */
+const QS=new URLSearchParams(location.search),SATT=QS.has('sat')?+QS.get('sat'):null; /* ?sat=<s> freezes the satellite at orbit time s (nearest pass at s=6) */
 const SHOT=QS.has('satshot');const satMats=[foil,silver,bronzeTrim,dish.material];
 /* specular glint riding the dish rim */
 const glint=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex,color:0xFEF4E2,blending:THREE.AdditiveBlending,depthWrite:false,transparent:true,opacity:0}));glint.position.set(.12,.0,.52);sat.add(glint);
@@ -563,7 +563,7 @@ const glint=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex,color:0xFEF4E
    behind the stiff-arm and torso on the far side and is depth-occluded by the statue there. */
 const SP={m:{cx:-.105,cy:-.37,ax:.0495,ay:-.2204,bx:.13,by:0,w:.5,lo:.5,p:5,fr:.3,zs:.25},
           d:{cx:-.3162,cy:-.0269,ax:-.4456,ay:.0408,bx:.0509,by:-.0986,w:.46,lo:.5,p:3,fr:.55,zs:0}};
-const SAT_W=2.351,SAT_T0=4,SAT_OM=2*Math.PI/32,SAT_Z=2.2;
+const SAT_W=2.351,SAT_T0=6,SAT_OM=2*Math.PI/32,SAT_Z=2.2;
 const heroCam=new THREE.PerspectiveCamera(35,1,.1,400),hb={x:0,y:0,h:1},sv=new THREE.Vector3(),sd=new THREE.Vector3(),sf=new THREE.Vector3();
 const satS={X:0,Y:0,w:0,z:0,nr:1};
 function satFit(){const k=K()[0];heroCam.aspect=innerWidth/innerHeight;heroCam.position.set(...k[0]);heroCam.lookAt(...k[1]);heroCam.updateProjectionMatrix();heroCam.updateMatrixWorld(true);
