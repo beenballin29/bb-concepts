@@ -1,10 +1,10 @@
 <!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>BB / DOCKING</title>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Orbitron:wght@400;700;900&family=Michroma&family=Syncopate:wght@400;700&family=Unbounded:wght@400;700;900&family=Chakra+Petch:wght@400;600&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{--bz:#e0a86a;--bz2:#9a5f2c}
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{background:#000;color:#cdb08c;font-family:'IBM Plex Mono',monospace}
+html,body{background:#000;color:#cdb08c;font-family:var(--ff,'IBM Plex Mono'),monospace}
 canvas{position:fixed;inset:0;z-index:0}
 .ui{position:fixed;inset:0;z-index:2;pointer-events:none;display:flex;flex-direction:column;justify-content:space-between;padding:26px 30px}
 .top{display:flex;justify-content:space-between;font-size:11px;letter-spacing:.25em;color:#8b6c4c}
@@ -24,7 +24,7 @@ h1{font-size:clamp(28px,5vw,58px);letter-spacing:.06em;margin-top:10px;backgroun
 </style></head><body>
 <canvas id="c"></canvas>
 <div class="ui">
-  <div class="top"><span>BB // DOCKING SEQUENCE</span><span>ASSEMBLY <b id="pct">0%</b></span></div>
+  <div class="top"><span>BB // DOCKING</span><span>ASSEMBLY <b id="pct">0%</b></span></div>
   <div class="mid">
     <div class="k" id="k">MOVE TO SCATTER · HOLD TO ASSEMBLE</div>
     <h1 id="h">THE SIGNAL IS SCATTERED</h1>
@@ -65,4 +65,7 @@ sat.addEventListener('pointerdown',e=>{drag=true;sx=e.clientX-sat.offsetLeft;sat
 sat.addEventListener('pointermove',e=>{if(!drag)return;const max=dock.clientWidth-53;let l=Math.min(max,Math.max(5,e.clientX-sx));sat.style.left=l+'px';fill.style.width=(l+48)+'px';
  if(l>=max-2&&!docked){docked=true;drag=false;document.getElementById('lbl').textContent='DOCKED · UNLOCKED';document.getElementById('lbl').classList.remove('hint');document.getElementById('k').textContent='ENTER YOUR CHANNEL';setTimeout(()=>{dock.style.display='none';document.getElementById('form').style.display='block'},700)}});
 sat.addEventListener('pointerup',()=>{drag=false;if(!docked){sat.style.left='5px';fill.style.width='0'}});
-</script></body></html>
+</script><div id="fsw" style="position:fixed;left:50%;transform:translateX(-50%);top:58px;z-index:9999;display:flex;gap:4px;flex-wrap:nowrap;justify-content:center;max-width:96vw;background:rgba(0,0,0,.75);border:1px solid #b4743b;padding:6px;border-radius:999px;font:11px/1 sans-serif">
+<span style="color:#cdb08c;padding:6px 4px">FONT</span></div>
+<script>(function(){var F=[["A","Orbitron"],["B","Michroma"],["C","Syncopate"],["D","Unbounded"],["E","Chakra Petch"],["F","Space Grotesk"],["Old","IBM Plex Mono"]];var w=document.getElementById("fsw");function set(n){document.documentElement.style.setProperty("--ff","'"+n+"'");[].forEach.call(w.querySelectorAll("button"),function(b){b.style.background=b.dataset.f==n?"#cdb08c":"transparent";b.style.color=b.dataset.f==n?"#000":"#cdb08c"});history.replaceState(null,"","?font="+encodeURIComponent(n)+location.hash)}F.forEach(function(f){var b=document.createElement("button");b.textContent=f[0];b.dataset.f=f[1];b.style.cssText="border:1px solid #b4743b;border-radius:999px;padding:5px 8px;cursor:pointer;font-family:'"+f[1]+"';font-size:12px";b.onclick=function(e){e.stopPropagation();set(f[1])};w.appendChild(b)});var q=new URLSearchParams(location.search).get("font");set(q||"Orbitron")})();</script>
+</body></html>
