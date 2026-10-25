@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BEENBALLIN // INCOMING SIGNAL</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&display=swap');
+:root{--bz:#c08a55;--bz2:#e9b77f;--bz3:#7a4e2a;--bg:#030304;--tx:#efe9e1;--mut:#8a8178;--up:#3ddc84;--dn:#ff5b5b}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);font-family:'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.04em;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.bronze{background:linear-gradient(135deg,var(--bz3),var(--bz2) 45%,var(--bz) 60%,var(--bz3));-webkit-background-clip:text;background-clip:text;color:transparent}
+nav{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:18px 28px;background:linear-gradient(#030304ee,#03030400)}
+nav .logo{font-weight:700;font-size:22px}
+nav .links{display:flex;gap:22px;font-size:12px;color:var(--mut)}
+nav .links a:hover{color:var(--bz2)}
+.ticker{position:fixed;bottom:0;left:0;right:0;z-index:20;border-top:1px solid #2a2118;background:#050506e6;overflow:hidden;white-space:nowrap;font-size:11px;padding:8px 0}
+.ticker span{display:inline-block;animation:tick 40s linear infinite}
+.ticker b{margin:0 26px;color:var(--mut);font-weight:400}.ticker i{font-style:normal;color:var(--bz2)}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+#hero{position:relative;height:100vh;min-height:640px;overflow:hidden}
+#globe{position:absolute;inset:0}
+.hud{position:absolute;inset:0;pointer-events:none;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:90px 40px 70px}
+.hud .fig.bb{-webkit-mask-image:none!important;mask-image:none!important;mix-blend-mode:normal;height:auto;width:min(46vw,620px);filter:drop-shadow(0 0 50px #c08a5566) drop-shadow(0 20px 30px #000)}
+.hud .fig{grid-column:2;-webkit-mask-image:radial-gradient(ellipse 48% 50% at 50% 50%,#000 62%,transparent 100%);mask-image:radial-gradient(ellipse 48% 50% at 50% 50%,#000 62%,transparent 100%);height:min(62vh,560px);mix-blend-mode:screen;filter:drop-shadow(0 0 40px #c08a5533);animation:float 6s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-14px)}}
+.hud .left{justify-self:start;max-width:420px}
+.hud .right{justify-self:end;text-align:right;font-size:11px;color:var(--mut);line-height:1.9}
+.hud .right b{color:var(--bz2);font-weight:500}
+.kicker{font-size:12px;color:var(--bz);margin-bottom:14px}
+.kicker:before{content:'';display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--up);margin-right:10px;box-shadow:0 0 10px var(--up);animation:blink 1.4s infinite}
+@keyframes blink{50%{opacity:.2}}
+h1{font-size:clamp(34px,5vw,64px);line-height:1.02;font-weight:700;margin-bottom:16px}
+.sub{color:var(--mut);font-size:13px;line-height:1.7;margin-bottom:26px}
+.btn{pointer-events:auto;display:inline-flex;align-items:center;gap:12px;padding:16px 26px;border:1px solid var(--bz);color:var(--bz2);font:500 13px 'IBM Plex Mono';letter-spacing:.12em;background:#0a0806;cursor:pointer;position:relative;overflow:hidden;transition:.3s}
+.btn:before{content:'';position:absolute;inset:-2px;background:conic-gradient(from var(--a),transparent 70%,var(--bz2));animation:spin 2.5s linear infinite;z-index:-1}
+.btn:after{content:'';position:absolute;inset:1px;background:#0a0806;z-index:-1}
+.btn{isolation:isolate}
+.btn:hover{color:#fff;box-shadow:0 0 30px #c08a5566}
+@property --a{syntax:'<angle>';initial-value:0deg;inherits:false}
+@keyframes spin{to{--a:360deg}}
+.btn.solid{background:linear-gradient(135deg,var(--bz3),var(--bz2),var(--bz));color:#120c07;border:0}
+.btn.solid:before,.btn.solid:after{display:none}
+.scrollcue{position:absolute;bottom:56px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--mut)}
+section{padding:110px 28px;max-width:1180px;margin:0 auto}
+.label{font-size:11px;color:var(--bz);margin-bottom:12px}
+h2{font-size:clamp(26px,3.4vw,42px);margin-bottom:12px}
+.lead{color:var(--mut);font-size:13px;line-height:1.8;max-width:620px}
+#decode .panel{margin-top:40px;border:1px solid #2a2118;background:radial-gradient(circle at 80% 0,#1a120a,#060606 60%);padding:40px;display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:center}
+.list li{list-style:none;padding:12px 0;border-bottom:1px dashed #2a2118;font-size:13px;display:flex;gap:14px}
+.list li i{font-style:normal;color:var(--bz)}
+.list.locked li span{filter:blur(5px);user-select:none}
+.field{position:relative;margin-bottom:16px}
+.field input{width:100%;background:transparent;border:0;border-bottom:1px solid #3a2d20;padding:16px 0 10px;color:var(--tx);font:14px 'IBM Plex Mono';outline:none;transition:.3s}
+.field label{position:absolute;left:0;top:16px;color:var(--mut);font-size:12px;transition:.25s;pointer-events:none}
+.field input:focus,.field input:valid{border-color:var(--bz2)}
+.field input:focus+label,.field input:valid+label{top:-4px;font-size:10px;color:var(--bz2)}
+.fine{font-size:10px;color:var(--mut);margin-top:14px;line-height:1.6}
+.scan{display:none;align-items:center;gap:18px;font-size:12px;color:var(--bz2)}
+.radar{width:54px;height:54px;border-radius:50%;border:1px solid var(--bz);position:relative;overflow:hidden;background:repeating-radial-gradient(#0000 0 8px,#c08a5522 9px 10px)}
+.radar:after{content:'';position:absolute;inset:0;background:conic-gradient(#e9b77f99,transparent 25%);animation:spin2 1s linear infinite;border-radius:50%}
+@keyframes spin2{to{transform:rotate(360deg)}}
+.ok{display:none;color:var(--up);font-size:13px;line-height:1.8}
+.droph{display:flex;justify-content:space-between;align-items:end;flex-wrap:wrap;gap:20px}
+.count{display:flex;gap:10px}
+.count div{border:1px solid #2a2118;padding:10px 14px;text-align:center;min-width:66px}
+.count b{display:block;font-size:26px}.count small{font-size:9px;color:var(--mut)}
+.grid{margin-top:40px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.card{perspective:1200px;height:480px;cursor:pointer}
+.inner{position:relative;width:100%;height:100%;transition:transform .8s cubic-bezier(.2,.8,.2,1);transform-style:preserve-3d}
+.card:hover .inner,.card.on .inner{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;border:1px solid #2a2118;background:#070707;display:flex;flex-direction:column}
+.front{justify-content:center;align-items:center;gap:18px}
+.front .code{font-size:46px;font-weight:700}
+.front svg{width:85%;height:90px}
+.front .meta{font-size:11px;color:var(--mut)}
+.back{transform:rotateY(180deg)}
+.back img{width:100%;height:300px;object-fit:cover}
+.back .b{padding:18px;display:flex;flex-direction:column;gap:8px;flex:1}
+.row{display:flex;justify-content:space-between;font-size:13px}
+.bar{height:4px;background:#1c1610}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--bz3),var(--bz2))}
+.tag{position:absolute;top:14px;right:14px;font-size:10px;padding:4px 8px;background:var(--bz2);color:#120c07;z-index:2}
+.buy{margin-top:auto;justify-content:center}
+footer{padding:60px 28px 90px;text-align:center;font-size:11px;color:var(--mut);border-top:1px solid #1a1510}
+@media(max-width:860px){.hud .fig.bb{width:82vw;height:auto}.scrollcue{display:none}.hud{grid-template-columns:1fr;grid-template-rows:auto 1fr auto;text-align:center;padding:80px 20px 60px}.hud .fig{grid-column:1;grid-row:2;height:38vh;justify-self:center}.hud .left{grid-row:3;justify-self:center}.hud .right{display:none}#decode .panel{grid-template-columns:1fr;padding:24px}.grid{grid-template-columns:1fr}nav .links{display:none}}
+</style></head>
+<body>
+<nav><a class="logo" href="#hero"><img src="bb-logo.png" alt="BB" style="height:34px;display:block;filter:drop-shadow(0 0 8px rgba(214,150,80,.45))"></a><div class="links"><a href="#decode">DECODE</a><a href="#drop">DROP</a><a href="#hero">ORBIT</a></div></nav>
+
+<div id="hero">
+  <div id="globe"></div>
+  <div class="hud">
+    <div class="left">
+      <div class="kicker">INCOMING SIGNAL // LIVE ORBIT</div>
+      <h1>SIGNAL<br><span class="bronze">FROM ORBIT.</span></h1>
+      <p class="sub">Earned, not given. Every dot behind the BB is a real satellite, tracked live right now.</p>
+      <a class="btn" href="#decode">DECODE THE SIGNAL &rarr;</a>
+    </div>
+    <img class="fig bb" src="bb-logo.png" alt="BB logo">
+    <div class="right">
+      SATS TRACKED <b id="satn">--</b><br>
+      UTC <b id="utc">--</b><br>
+      LOCK <b id="lock">ISS (ZARYA)</b><br>
+      ALT <b id="alt">--</b> KM<br>
+      VEL <b id="vel">--</b> KM/S
+    </div>
+  </div>
+  <div class="scrollcue">SCROLL TO DESCEND</div>
+</div>
+
+<section id="decode">
+  <div class="label">01 // THE DECODE</div>
+  <h2>Unlock the <span class="bronze">Orbit Checklist.</span></h2>
+  <p class="lead">A free one-page pre-trade checklist. Drop your email or number and it's yours, plus first access to every drop.</p>
+  <div class="panel">
+    <ul class="list locked" id="ck">
+      <li><i>01</i><span>Define the setup before you open the chart</span></li>
+      <li><i>02</i><span>Know your exit before your entry</span></li>
+      <li><i>03</i><span>Size the position to the risk, not the hype</span></li>
+      <li><i>04</i><span>No revenge trades. Walk away after a loss</span></li>
+      <li><i>05</i><span>Journal every trade, win or lose</span></li>
+    </ul>
+    <form id="f" onsubmit="return go(event)">
+      <div class="field"><input id="em" required autocomplete="off"><label>EMAIL OR PHONE</label></div>
+      <div id="act"><button class="btn solid" type="submit">DECODE &rarr;</button></div>
+      <div class="scan" id="scan"><div class="radar"></div><span id="st">ACQUIRING SATELLITE…</span></div>
+      <div class="ok" id="ok">SIGNAL RECEIVED.<br>Checklist unlocked. You're on the list for the next drop.</div>
+      <p class="fine">Education only. Not financial advice. No promised results.</p>
+    </form>
+  </div>
+</section>
+
+<section id="drop">
+  <div class="droph">
+    <div><div class="label">02 // THE DROP</div><h2>WALK-ON 29. <span class="bronze">29 MADE.</span></h2><p class="lead">No restock. Hover or tap a code to reveal it.</p></div>
+    <div class="count"><div><b id="d">00</b><small>DAYS</small></div><div><b id="h">00</b><small>HRS</small></div><div><b id="m">00</b><small>MIN</small></div><div><b id="s">00</b><small>SEC</small></div></div>
+  </div>
+  <div class="grid">
+    <div class="card" onclick="this.classList.toggle('on')"><div class="inner">
+      <div class="face front"><div class="code bronze">BB-29</div><svg data-up="1"></svg><div class="meta">HEAVYWEIGHT HOODIE // 11 OF 29 LEFT</div></div>
+      <div class="face back"><img src="hoodie.jpg" alt="BB-29 hoodie"><div class="b"><div class="row"><span>BB-29 HOODIE</span><span class="bronze">$129</span></div><div class="row" style="color:var(--mut);font-size:11px"><span>NUMBERED</span><span>11 / 29 LEFT</span></div><div class="bar"><i style="width:38%"></i></div><a class="btn solid buy" href="#">ADD TO BAG</a></div></div>
+    </div></div>
+    <div class="card" onclick="this.classList.toggle('on')"><div class="inner">
+      <div class="face front"><div class="code bronze">WO-19</div><svg data-up="0"></svg><div class="meta">ORBIT TEE // 17 OF 29 LEFT</div></div>
+      <div class="face back"><img src="tee.jpg" alt="WO-19 tee"><div class="b"><div class="row"><span>WO-19 TEE</span><span class="bronze">$55</span></div><div class="row" style="color:var(--mut);font-size:11px"><span>WASHED CHARCOAL</span><span>17 / 29 LEFT</span></div><div class="bar"><i style="width:59%"></i></div><a class="btn solid buy" href="#">ADD TO BAG</a></div></div>
+    </div></div>
+    <div class="card" onclick="this.classList.toggle('on')"><div class="inner">
+      <div class="tag">MOST POPULAR</div>
+      <div class="face front"><div class="code bronze">THE KIT</div><svg data-up="1"></svg><div class="meta">HOODIE + TEE + SIGNED CARD // 6 OF 29 LEFT</div></div>
+      <div class="face back"><img src="kit.jpg" alt="The Walk-On Kit"><div class="b"><div class="row"><span>THE WALK-ON KIT</span><span class="bronze">$169</span></div><div class="row" style="color:var(--mut);font-size:11px"><span>+ FIRST ACCESS TO DROP 02</span><span>6 / 29 LEFT</span></div><div class="bar"><i style="width:21%"></i></div><a class="btn solid buy" href="#">ADD TO BAG</a></div></div>
+    </div></div>
+  </div>
+</section>
+
+<footer>BEENBALLIN // BUILT IN ORBIT. WORN ON EARTH.<br><br>Satellite positions: CelesTrak public data. Prototype, prices and stock counts are placeholders.</footer>
+
+<div class="ticker"><span id="tk"></span></div>
+
+<script src="satellite.min.js"></script>
+<script src="globe.gl.min.js"></script>
+<script src="tle.js"></script>
+<script>
+// ---- satellites
+const recs=TLES.map(([n,a,b])=>({name:n,rec:satellite.twoline2satrec(a,b)}));
+const R=6371;
+const W=document.getElementById('globe');
+const G=Globe()(W).globeImageUrl('earth-dark.jpg').backgroundImageUrl('night-sky.png')
+ .atmosphereColor('#c08a55').atmosphereAltitude(0.18).showGraticules(true)
+;
+const d=document.getElementById('d'),h=document.getElementById('h'),m=document.getElementById('m'),s=document.getElementById('s');
+document.getElementById('satn').textContent=recs.length;
+// points layer for sats (works without THREE ref)
+G.particlesData([[]]).particlesList(d=>d).particleLat('lat').particleLng('lng').particleAltitude('alt')
+ .particlesSize(3.2).particlesSizeAttenuation(false).particlesColor(()=> '#e9b77f');
+G.pointOfView({lat:20,lng:-97,altitude:2.6});
+G.controls().autoRotate=true;G.controls().autoRotateSpeed=0.35;G.controls().enableZoom=false;
+function sz(){G.width(W.clientWidth).height(W.clientHeight)}addEventListener('resize',sz);sz();
+const issIdx=recs.findIndex(r=>/ISS/.test(r.name));
+function prop(){
+  const now=new Date(),g=satellite.gstime(now),out=[];let iss=null;
+  recs.forEach((r,i)=>{const pv=satellite.propagate(r.rec,now);if(!pv.position)return;
+    const gd=satellite.eciToGeodetic(pv.position,g);
+    const o={name:r.name,lat:satellite.degreesLat(gd.latitude),lng:satellite.degreesLong(gd.longitude),alt:gd.height/R,iss:i===issIdx};
+    if(o.iss){const v=pv.velocity;iss={h:gd.height,v:Math.hypot(v.x,v.y,v.z)}}out.push(o)});
+  G.particlesData([out]);
+  if(iss){document.getElementById('alt').textContent=iss.h.toFixed(1);document.getElementById('vel').textContent=iss.v.toFixed(2)}
+  document.getElementById('utc').textContent=now.toISOString().slice(11,19);
+}
+prop();setInterval(prop,1000);
+if(location.search.includes('hide')){document.getElementById('hero').style.display='none';if(location.search.includes('flip'))document.querySelectorAll('.card')[0].classList.add('on');if(location.search.includes('unlock')){ok.style.display='block';act.style.display='none';ck.classList.remove('locked')}}
+if(false){const id=location.search.split('to=')[1];setTimeout(()=>{document.documentElement.style.scrollBehavior='auto';document.getElementById(id).scrollIntoView();if(location.search.includes('flip'))document.querySelectorAll('.card')[0].classList.add('on')},300)}
+// ---- ISS orbit path
+(function(){const r=recs[issIdx];if(!r)return;const pts=[];const t0=Date.now();
+ for(let k=0;k<=95;k++){const t=new Date(t0+k*60000),pv=satellite.propagate(r.rec,t);if(!pv.position)continue;const gd=satellite.eciToGeodetic(pv.position,satellite.gstime(t));pts.push([satellite.degreesLat(gd.latitude),satellite.degreesLong(gd.longitude),gd.height/R])}
+ G.pathsData([pts]).pathPoints(p=>p).pathPointLat(p=>p[0]).pathPointLng(p=>p[1]).pathPointAlt(p=>p[2]).pathColor(()=>['#e9b77f00','#e9b77f']).pathStroke(1.2).pathDashLength(0.3).pathDashGap(0.02).pathDashAnimateTime(12000);})();
+// ---- ticker
+const names=recs.slice(0,40).map(r=>r.name);
+const tk=names.map(n=>`<b><i>◉</i> ${n} // IN ORBIT</b>`).join('')+'<b><i>◉</i> BB-29 // 11 OF 29 LEFT</b><b><i>◉</i> WO-19 // 17 OF 29 LEFT</b><b><i>◉</i> THE KIT // 6 OF 29 LEFT</b>';
+document.getElementById('tk').innerHTML=tk+tk;
+// ---- sparklines
+document.querySelectorAll('svg[data-up]').forEach(s=>{const up=s.dataset.up==='1';s.setAttribute('viewBox','0 0 300 90');let x=8,y=up?70:25,h='';
+ for(let i=0;i<22;i++){const d=(Math.random()-0.5)*16+(up?-2:1.5);const o=y,c=Math.max(10,Math.min(80,y+d));const g=c<o;
+  h+=`<line x1="${x}" x2="${x}" y1="${Math.min(o,c)-6}" y2="${Math.max(o,c)+6}" stroke="${g?'#3ddc84':'#ff5b5b'}" stroke-width="1"/><rect x="${x-4}" y="${Math.min(o,c)}" width="8" height="${Math.max(2,Math.abs(c-o))}" fill="${g?'#3ddc84':'#ff5b5b'}"/>`;y=c;x+=13}
+ s.innerHTML=h});
+// ---- countdown (placeholder: 3 days from first visit)
+const end=Date.now()+((2*24+14)*3600+33*60)*1000;
+setInterval(()=>{let t=Math.max(0,end-Date.now())/1000;const p=n=>String(Math.floor(n)).padStart(2,'0');
+ d.textContent=p(t/86400);h.textContent=p(t%86400/3600);m.textContent=p(t%3600/60);s.textContent=p(t%60)},1000);
+// ---- decode
+function go(e){e.preventDefault();act.style.display='none';scan.style.display='flex';
+ const steps=['ACQUIRING SATELLITE…','LOCKING ORBIT…','DECODING SIGNAL…'];let i=0;
+ const iv=setInterval(()=>{i++;if(i<steps.length){st.textContent=steps[i]}else{clearInterval(iv);scan.style.display='none';ok.style.display='block';ck.classList.remove('locked')}},900);
+ return false}
+</script>
+</body></html>

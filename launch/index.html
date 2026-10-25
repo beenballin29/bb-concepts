@@ -1,0 +1,71 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BB LAUNCH</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0}html,body{background:#000;color:#eee;font-family:'IBM Plex Mono',monospace}
+body{height:500vh}#stars{position:fixed;inset:0;z-index:0}
+.b{color:#d9a26a}.stage{position:fixed;inset:0;z-index:2;pointer-events:none}
+#earth{position:fixed;left:50%;width:180vmax;height:180vmax;margin-left:-90vmax;border-radius:50%;background:url(earth-dark.jpg) center/cover;box-shadow:0 0 120px 30px #c08a5544,inset 0 0 120px #000;z-index:1;transition:none}
+#rocket{position:fixed;left:50%;top:50%;width:min(56vw,420px);transform:translate(-50%,-50%);z-index:3;filter:drop-shadow(0 0 30px #c08a5588)}
+#flame{position:fixed;left:50%;width:120px;height:0;margin-left:-60px;background:radial-gradient(ellipse at top,#fff 0,#ffcf8a 20%,#c0602a 55%,transparent 75%);filter:blur(6px);z-index:2;opacity:0}
+.shake{animation:sh .06s infinite}@keyframes sh{0%{margin-left:-2px}50%{margin-left:2px}}
+nav{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;padding:18px 24px;z-index:9;font-size:11px;letter-spacing:.2em}
+nav img{height:28px}#alt{position:fixed;right:24px;top:50%;transform:translateY(-50%);z-index:9;text-align:right;font-size:11px;letter-spacing:.15em;line-height:2}
+#alt b{font-size:22px;color:#e9b77f}#chart{position:fixed;left:24px;bottom:90px;width:min(40vw,320px);height:140px;z-index:9;opacity:0}
+.panel{position:fixed;left:0;right:0;text-align:center;z-index:9;pointer-events:auto;transition:opacity .4s}
+#p1{bottom:9vh}h1{font-size:clamp(30px,6vw,64px);letter-spacing:.05em;line-height:1}.k{font-size:11px;letter-spacing:.3em;color:#8a8a8a;margin-bottom:12px}
+#hold{margin-top:22px;position:relative;padding:18px 34px;border:1px solid #d9a26a;background:#0008;color:#e9b77f;font:600 13px 'IBM Plex Mono';letter-spacing:.25em;cursor:pointer;overflow:hidden;user-select:none;touch-action:none}
+#fuel{position:absolute;left:0;top:0;bottom:0;width:0;background:linear-gradient(90deg,#6b3e1c,#d9a26a);z-index:-1}
+#p2{bottom:8vh;opacity:0}.sat{position:fixed;width:92px;height:92px;border-radius:50%;border:1px solid #d9a26a;background:#000 center/cover;z-index:8;opacity:0;pointer-events:auto;cursor:pointer;box-shadow:0 0 24px #c08a5566;transition:transform .2s}
+.sat:hover{transform:scale(1.15)}.sat span{position:absolute;top:100%;left:50%;transform:translateX(-50%);font-size:10px;white-space:nowrap;margin-top:6px;letter-spacing:.15em;color:#e9b77f}
+#card{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%) scale(.9);width:min(88vw,360px);background:#0a0705;border:1px solid #d9a26a;padding:22px;z-index:20;opacity:0;pointer-events:none;transition:.25s}
+#card.on{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1)}#card img{width:100%;aspect-ratio:1;object-fit:cover;margin-bottom:14px}
+#card h3{letter-spacing:.1em}#card .pr{font-size:26px;color:#e9b77f;margin:6px 0}#card p{font-size:12px;color:#aaa;line-height:1.6}
+#card button,#p3 button{margin-top:14px;width:100%;padding:14px;background:#d9a26a;border:0;font:700 12px 'IBM Plex Mono';letter-spacing:.25em;cursor:pointer}
+#x{position:absolute;right:10px;top:6px;cursor:pointer;color:#888}
+#p3{top:50%;transform:translateY(-50%);opacity:0;pointer-events:none}#ped{width:min(60vw,300px);height:70px;margin:0 auto 26px;background:linear-gradient(180deg,#e9b77f,#6b3e1c);clip-path:polygon(12% 0,88% 0,100% 100%,0 100%)}
+#p3 form{width:min(86vw,360px);margin:22px auto 0}#p3 input{width:100%;padding:14px;background:#000;border:1px solid #555;color:#fff;font:13px 'IBM Plex Mono'}
+.tiny{font-size:10px;color:#666;margin-top:10px;letter-spacing:.1em}#cue{position:fixed;bottom:22px;left:0;right:0;text-align:center;font-size:10px;letter-spacing:.3em;color:#666;z-index:9;opacity:0}
+@media(max-width:700px){#alt{top:70px;transform:none;font-size:9px;line-height:1.7}#alt b{font-size:16px}#chart{bottom:auto;top:70px;left:16px;width:40vw;height:80px}.sat{width:70px;height:70px}}
+</style></head><body>
+<canvas id="stars"></canvas><div id="earth"></div><div id="flame"></div><img id="rocket" src="bb-logo.png" alt="BB">
+<nav><img src="bb-logo.png" alt="BB"><span id="stat" class="b">T-MINUS // AWAITING FUEL</span></nav>
+<div id="alt">ALTITUDE<br><b id="altv">0</b> KM<br>VELOCITY <span class="b" id="vel">0.00</span> KM/S<br>FUEL <span class="b" id="fp">0%</span></div>
+<svg id="chart" viewBox="0 0 320 140"><polyline id="line" fill="none" stroke="#e9b77f" stroke-width="2" points=""/></svg>
+<div class="panel" id="p1"><div class="k">LAUNCHPAD 29 // DALLAS, TX</div><h1>HOLD TO <span class="b">LAUNCH.</span></h1><button id="hold"><span id="fuel"></span>HOLD TO FUEL</button></div>
+<div class="panel" id="p2"><div class="k">ORBIT ACHIEVED</div><h1>TAP A <span class="b">SATELLITE.</span></h1><div class="tiny">29 MADE OF EACH. NEVER RESTOCKED.</div></div>
+<div class="panel" id="p3"><div id="ped"></div><div class="k">MISSION COMPLETE</div><h1>YOU MADE <span class="b">ORBIT.</span></h1><div style="margin-top:10px;letter-spacing:.2em">JOIN THE CREW</div>
+<form onsubmit="event.preventDefault();this.innerHTML='<h3 class=b style=letter-spacing:.2em>WELCOME TO THE CREW.</h3><p class=tiny>Your Orbit Checklist is on the way.</p>'"><input required placeholder="EMAIL OR PHONE"><button>JOIN THE CREW →</button><div class="tiny">Free Orbit Checklist. Education only. Not financial advice.</div></form></div>
+<div id="cue">SCROLL TO LIFT OFF ↓</div>
+<div id="card"><span id="x">✕</span><img id="ci"><h3 id="ct"></h3><div class="pr" id="cp"></div><p id="cd"></p><button>CLAIM YOURS →</button></div>
+<script>
+const q=location.search;var FT=q.includes('t=')?parseFloat(q.split('t=')[1]):null;if(FT!=null)setTimeout(()=>{fuel=100;holding=true},50);
+const P=[{n:'BRONZE ORBIT HOODIE',p:'$129',d:'Heavyweight hoodie, bronze BB. 29 made.',i:'hoodie.jpg'},{n:'SIGNAL TEE',p:'$55',d:'Boxy tee, signal print. 29 made.',i:'tee.jpg'},{n:'SATELLITE HAT',p:'$45',d:'Structured hat, bronze BB. 29 made.',i:'kit.jpg'},{n:'FULL ORBIT KIT',p:'$199',d:'MOST POPULAR. Hoodie, tee and hat, a numbered card, and first access to the next drop. Add the patch set for $19 at checkout.',i:'kit.jpg'}];
+const $=id=>document.getElementById(id),R=$('rocket'),E=$('earth'),F=$('flame');
+// stars
+const c=$('stars'),x=c.getContext('2d');let S=[];function rs(){c.width=innerWidth;c.height=innerHeight;S=[...Array(260)].map(()=>[Math.random()*c.width,Math.random()*c.height,Math.random()*1.4])}rs();onresize=rs;
+let speed=0;(function st(){x.clearRect(0,0,c.width,c.height);x.fillStyle='#fff';S.forEach(s=>{s[1]+=s[2]*speed;if(s[1]>c.height)s[1]=0;x.globalAlpha=.3+s[2]/2;x.fillRect(s[0],s[1],s[2],s[2]+s[2]*speed*2)});requestAnimationFrame(st)})();
+// satellites
+const sats=P.map((p,k)=>{const d=document.createElement('div');d.className='sat';d.style.backgroundImage=`url(${p.i})`;d.innerHTML=`<span>${p.n.split(' ').slice(-1)[0]} ${p.p}</span>`;d.onclick=()=>{$('ci').src=p.i;$('ct').textContent=p.n;$('cp').textContent=p.p;$('cd').textContent=p.d;$('card').classList.add('on')};document.body.appendChild(d);return d});$('x').onclick=()=>$('card').classList.remove('on');
+// fuel
+let fuel=0,holding=false,launched=false;const h=$('hold');
+const on=e=>{e.preventDefault();holding=true},off=()=>holding=false;h.addEventListener('pointerdown',on);addEventListener('pointerup',off);h.addEventListener('pointerleave',off);
+document.body.style.overflow='hidden';
+(function fl(){if(!launched){fuel=Math.max(0,Math.min(100,fuel+(holding?1.4:-.8)));$('fuel').style.width=fuel+'%';$('fp').textContent=Math.round(fuel)+'%';R.classList.toggle('shake',holding&&fuel>5);R.style.filter=`drop-shadow(0 0 ${30+fuel}px #c08a55${holding?'ff':'88'})`;F.style.opacity=fuel/140;F.style.height=fuel*.8+'px';
+if(fuel>=100){launched=true;R.classList.remove('shake');$('stat').textContent='IGNITION // LIFTOFF';$('p1').style.opacity=0;$('p1').style.pointerEvents='none';document.body.style.overflow='';$('cue').style.opacity=1;$('chart').style.opacity=1;if(FT==null)scrollTo(0,innerHeight*.15)}}requestAnimationFrame(fl)})();
+// scroll
+const pts=[];for(let k=0;k<=40;k++){const t=k/40;pts.push([t*320,140-(t*t*110+Math.sin(k*1.7)*6+Math.random()*5)])}
+function frame(){const max=document.body.scrollHeight-innerHeight,t=FT!=null?FT:(launched?Math.min(1,scrollY/max):0),W=innerWidth,H=innerHeight;
+const climb=Math.min(1,t/.45),orb=Math.max(0,Math.min(1,(t-.45)/.3)),end=Math.max(0,(t-.8)/.2);
+E.style.top=(H*.72+climb*H*.9-orb*H*1.25)+'px';E.style.transform=`rotate(${t*90}deg) scale(${1-orb*.55})`;
+speed=launched?(climb<1?1+climb*14:1):0;
+const ry=H/2-climb*H*.18+orb*H*.02-end*H*.04,rs=1-orb*.35;R.style.top=ry+'px';R.style.transform=`translate(-50%,-50%) scale(${rs}) rotate(${(1-orb)*climb*-4}deg)`;
+F.style.top=(ry+R.offsetHeight*rs*.35)+'px';if(launched){F.style.opacity=(1-orb)*.9;F.style.height=(60+climb*180)*(1-orb)+'px'}
+const alt=launched?Math.round(climb*408+orb*0):0;$('altv').textContent=alt;$('vel').textContent=(climb*7.66).toFixed(2);if(launched)$('stat').textContent=orb>=1?(end>.3?'MISSION COMPLETE':'ORBIT LOCKED // 408 KM'):'ASCENT // MAX-Q';
+const n=Math.max(2,Math.round(climb*40));$('line').setAttribute('points',pts.slice(0,n+1).map(p=>p.join(',')).join(' '));
+$('cue').style.opacity=launched&&t<.05?1:0;
+const sOp=orb*(1-end*1.5),tm=performance.now()/4000;sats.forEach((d,k)=>{const a=tm+k*Math.PI/2,rx=Math.min(W*.38,330),rz=Math.min(H*.28,200);d.style.left=(W/2+Math.cos(a)*rx-46)+'px';d.style.top=(ry+Math.sin(a)*rz-46)+'px';d.style.opacity=Math.max(0,sOp);d.style.pointerEvents=sOp>.5?'auto':'none';d.style.zIndex=Math.sin(a)>0?8:2});
+$('p2').style.opacity=Math.max(0,orb-end*2);$('alt').style.opacity=1-end;$('chart').style.opacity=launched?1-orb:0;
+$('p3').style.opacity=end;$('p3').style.pointerEvents=end>.6?'auto':'none';if(end>0){R.style.top=(ry-end*H*.12)+'px'}
+requestAnimationFrame(frame)}frame();
+
+</script></body></html>
