@@ -306,7 +306,7 @@ P.forEach((x,i)=>{const sizes=x.os?['ONE SIZE']:['S','M','L','XL','2XL'];
  <div class="meter"><div class="t u"><span>Edition</span><span><b style="color:#FEF4E2">${DROP.total-DROP.issued}</b> / ${DROP.total} left</span></div><div class="bar"><i></i></div>
  <button class="add" data-add="${x.n}">Add · $${x.p}</button></div></div></div>`)});
 /* ticker (reads DROP) */
-function renderTicker(){const it=[(DROP.connected?'':'<span class="pv">PREVIEW</span>')+'BB/USD ▲ EARNED','DROP 001 · '+DROP.total+' ISSUED',dropLeft()+' / '+DROP.total+' LEFT','PASS No. '+passNo(),windowTxt(),'RESTOCK · NEVER','CLEARANCE · ORBIT','SIG · LOCKED'];
+function renderTicker(){const kit=P.find(x=>x.hot);const it=[(DROP.connected?'':'<span class="pv">PREVIEW</span>')+'DROP 001 · '+dropLeft()+' / '+DROP.total+' LEFT','FULL ORBIT KIT $'+kit.p,DROP.total+' ISSUED','PASS No. '+passNo(),windowTxt(),'RESTOCK · NEVER','CLEARANCE · ORBIT','SIG · LOCKED'];
  const h=it.map(t=>'<span>'+t+'</span>').join('');document.getElementById('tk').innerHTML=h+h}
 renderTicker();if(DROP.closesAt)setInterval(()=>{renderTicker();const w=document.getElementById('stw');if(w)w.textContent=windowTxt()},1000);
 cards.addEventListener('click',e=>{
@@ -452,9 +452,9 @@ const mk=(r,t,rx,rz,mat)=>{const m=new THREE.Mesh(new THREE.TorusGeometry(r,t,24
 const r1=mk(2.05,.018,Math.PI/2.15,.25,bronze),r2=mk(2.3,.011,Math.PI/2.6,-.55,bronze),r3=mk(2.6,.006,1.2,.9,bronzeD);
 const glowM=new THREE.MeshBasicMaterial({color:0xD6AC83,transparent:true,opacity:.09,blending:THREE.AdditiveBlending,depthWrite:false});
 [[r1,2.05,.05],[r2,2.3,.035]].forEach(([r,R0,t])=>r.add(new THREE.Mesh(new THREE.TorusGeometry(R0,t,16,220),glowM)));
-/* faint price-line trace riding the outer orbit */
-{const pts=[];let v=0;for(let i=0;i<=180;i++){const a=-.4+i/180*2.3;v+=(Math.random()-.47)*.012;v*=.97;pts.push(new THREE.Vector3(Math.cos(a)*(2.6+.05+v),Math.sin(a)*(2.6+.05+v),0))}
- r3.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),new THREE.LineBasicMaterial({color:0xD6AC83,transparent:true,opacity:.42,blending:THREE.AdditiveBlending,depthWrite:false})))}
+/* faint smooth orbital trajectory riding just outside the outer orbit */
+{const pts=[];for(let i=0;i<=240;i++){const a=-.4+i/240*2.3;pts.push(new THREE.Vector3(Math.cos(a)*2.66,Math.sin(a)*2.66,0))}
+ r3.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),new THREE.LineBasicMaterial({color:0xD6AC83,transparent:true,opacity:.35,blending:THREE.AdditiveBlending,depthWrite:false})))}
 /* tick marks on r1 */
 const tg=new THREE.BoxGeometry(.008,.07,.008),ti=new THREE.InstancedMesh(tg,bronze,90),dm=new THREE.Object3D();
 for(let i=0;i<90;i++){const a=i/90*Math.PI*2;dm.position.set(Math.cos(a)*2.05,Math.sin(a)*2.05,0);dm.rotation.z=a;dm.scale.y=i%5?1:2.2;dm.updateMatrix();ti.setMatrixAt(i,dm.matrix)}r1.add(ti);
