@@ -687,19 +687,22 @@ R.setAnimationLoop(()=>{const t=clock.getElapsedTime(),dt=Math.min(t-(window.__l
 });
 const pv=new THREE.Vector3(),pxb=new Uint8Array(4);
 /* desktop cover split: copy the just-rendered hood pixels onto #hood (above EARNED), masked by the hood outline x statue alpha */
-const hoodC=document.getElementById('hood'),hctx=hoodC.getContext('2d'),hTmp=document.createElement('canvas'),htx=hTmp.getContext('2d');let hoodMask=null,hoodOn=false;
+const hoodC=document.getElementById('hood'),hctx=hoodC.getContext('2d'),hTmp=document.createElement('canvas'),htx=hTmp.getContext('2d');let hoodMask=null,hoodImg=null,hoodOn=false;
 const HP=[[0.632,0.038],[0.692,0.008],[0.766,0.01],[0.826,0.043],[0.856,0.081],[0.871,0.105],[0.863,0.144],[0.833,0.192],[0.789,0.212],[0.68,0.218],[0.625,0.192],[0.598,0.156],[0.594,0.12],[0.6,0.072]],HB=[.58,0,.32,.24];
-{const im=new Image();im.onload=()=>{const w=672,h=1044,c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');
+function hoodBuild(im){const w=672,h=1044,c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');
  x.filter='blur(4px)';x.beginPath();HP.forEach(([u,v],i)=>i?x.lineTo(u*w,v*h):x.moveTo(u*w,v*h));x.closePath();x.fillStyle='#fff';x.fill();x.filter='none';
- x.globalCompositeOperation='destination-in';x.drawImage(im,0,0,w,h);hoodMask=c};im.src='statue.webp'}
+ x.globalCompositeOperation='destination-in';x.drawImage(im,0,0,w,h);hoodMask=c;
+ const c2=document.createElement('canvas');c2.width=w;c2.height=h;const y=c2.getContext('2d');y.drawImage(c,0,0);y.globalCompositeOperation='source-in';y.drawImage(im,0,0,w,h);hoodImg=c2}
+
 function hoodDraw(){const gl=R.getContext(),cw=gl.drawingBufferWidth,ch=gl.drawingBufferHeight,k=cw/innerWidth;
  if(hoodC.width!==cw||hoodC.height!==ch){hoodC.width=cw;hoodC.height=ch}
- if(hoodOn)hctx.clearRect(0,0,cw,ch);hoodOn=false;if(!hoodMask||sm2>.3)return;
+ if(hoodOn)hctx.clearRect(0,0,cw,ch);hoodOn=false;if(!hoodMask&&domFig.complete&&domFig.naturalWidth)hoodBuild(domFig);if(!hoodMask||sm2>.3)return; /* built from the already-decoded <img id=statue> */
  let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;for(const [cx,cy] of [[-1,-1],[1,-1],[-1,1],[1,1]]){pv.set(cx*FW/2,cy*FH/2,0).applyMatrix4(fig.matrixWorld).project(cam);const X=(pv.x+1)/2*innerWidth,Y=(1-pv.y)/2*innerHeight;x0=Math.min(x0,X);x1=Math.max(x1,X);y0=Math.min(y0,Y);y1=Math.max(y1,Y)}
  const bw=x1-x0,bh=y1-y0,hx=Math.floor((x0+HB[0]*bw)*k),hy=Math.floor((y0+HB[1]*bh)*k),hw=Math.ceil(HB[2]*bw*k),hh=Math.ceil(HB[3]*bh*k);
  if(hw<4||hh<4)return;if(hTmp.width!==hw||hTmp.height!==hh){hTmp.width=hw;hTmp.height=hh}
- const mw=hoodMask.width,mh=hoodMask.height;htx.globalCompositeOperation='copy';htx.drawImage(hoodMask,HB[0]*mw,HB[1]*mh,HB[2]*mw,HB[3]*mh,0,0,hw,hh);
- htx.globalCompositeOperation='source-in';htx.drawImage(canvas,hx,hy,hw,hh,0,0,hw,hh);
+ const mw=hoodMask.width,mh=hoodMask.height;htx.globalCompositeOperation='copy';
+ if(figOK){htx.drawImage(hoodMask,HB[0]*mw,HB[1]*mh,HB[2]*mw,HB[3]*mh,0,0,hw,hh);htx.globalCompositeOperation='source-in';htx.drawImage(canvas,hx,hy,hw,hh,0,0,hw,hh)}
+ else htx.drawImage(hoodImg,HB[0]*mw,HB[1]*mh,HB[2]*mw,HB[3]*mh,0,0,hw,hh); /* until WebGL has provably drawn the figure the glued <img> statue is what shows: use its hood pixels */
  hctx.save();hctx.shadowColor='rgba(0,0,0,.55)';hctx.shadowBlur=10*k;hctx.shadowOffsetY=3*k;hctx.drawImage(hTmp,hx,hy);hctx.restore();hoodOn=true}
 if(QS.get('dbg')==='nosat')sat.traverse(o=>o.layers.set(5)); /* test hook: simulate the 3D satellite failing to draw */
 if(QS.get('dbg')==='mag'){const mm=new THREE.MeshBasicMaterial({color:0xff00ff});sat.traverse(o=>{if(o.isMesh)o.material=mm;if(o.isSprite)o.visible=false});const _g=glint.material;Object.defineProperty(glint,'visible',{get:()=>false,set:()=>{}});document.documentElement.classList.add('dbgmag')}
