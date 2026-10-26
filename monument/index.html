@@ -41,7 +41,9 @@ span.bronze,h2.bronze,.tl.bronze{padding:0 .1em;margin:0 -.1em}
   --rt:calc(112px + .82*min(14vw,250px));--rh:max(40px,min(calc(.46*var(--h)),calc(var(--B) - .2*var(--h) - var(--rt))))}
  #statue{height:var(--h);top:calc(var(--B) - var(--h)/2)}
  .ringsfb{top:var(--rt);height:var(--rh);left:calc(50% + .015*var(--h))}
- .ringsfb .mb{display:none}.ringsfb .dk{display:inline}}
+ .ringsfb .mb{display:none}.ringsfb .dk{display:inline}
+ /* desktop: EARNED sits in front of the trophy (above #gl/#statue/#satfb/.ringsfb at z 2) so the word always reads whole; a tight black edge seats the hood behind it */
+ .g1{z-index:3}.g1 span{text-shadow:0 0 1px #000,0 1px 2px rgba(0,0,0,.9),0 4px 18px rgba(0,0,0,.55)}}
 html.gl-on .ringsfb{display:none}
 html.gl-fig #statue{opacity:0}
 #satfb{--sx:-0.1401;--sy:-0.6095;--sw:0.4676;--dx:-0.72;--dy:0.21;--dw:0.46;position:fixed;z-index:2;pointer-events:none;height:auto;left:calc(50% + var(--sx)*45.6svh);top:calc(52% + var(--sy)*45.6svh);width:calc(var(--sw)*45.6svh);transform:translate(-52.42%,-55.17%);filter:drop-shadow(0 0 18px rgba(214,172,131,.18))}
